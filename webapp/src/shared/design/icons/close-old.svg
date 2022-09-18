@@ -1,0 +1,11 @@
+<svg width="17" height="17" viewBox="0 0 17 17" fill="white" xmlns="http://www.w3.org/2000/svg">
+  
+  <defs>
+    <ref id="paramFill" param="color" default="blue"/>
+    <ref id="paramStroke" param="outline" default="navy"/>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="16" height="16" rx="3.5"  stroke="currentColor"/>
+  <path class='path' d="M8.5 7.5557L11.8057 4.25L12.75 5.1943L9.4443 8.5L12.75 11.8057L11.8057 12.75L8.5 9.4443L5.1943 12.75L4.25 11.8057L7.5557 8.5L4.25 5.1943L5.1943 4.25L8.5 7.5557Z" fill='currentColor'/>
+</svg>
+  
