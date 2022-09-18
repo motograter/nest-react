@@ -17,7 +17,7 @@ export const NavBar = ({ orientation = 'vertical' }) => (
         return (
           <NavBarItem key={`${link.path}-${idx}`}>
             <NavBarLink to={link.path} link={link}>
-              <Icon name={link.icon} />
+              <Icon name={link.icon}/>
               <Span>{link.title}</Span>
             </NavBarLink>
           </NavBarItem>

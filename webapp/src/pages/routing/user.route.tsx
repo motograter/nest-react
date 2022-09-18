@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { API_URL } from '@/shared/config'
 import { lazy, Suspense } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useRouteError } from 'react-router-dom'
 import { loader as userDetailsLoader } from '../user-details'
 import userEdit from '../user-edit'
 
@@ -13,7 +13,13 @@ const User = lazy(() =>
   import('../user-details').then((module) => ({ default: module.User }))
 )
 
-export const usersMapRoute = {
+function ErrorBoundary() {
+  const error = useRouteError();
+  console.error(error);
+  return <div>{error.statusText}</div>;
+}
+
+export const usersRouteMap = {
   path: 'users',
   element: <Outlet />,
   children: [
@@ -25,8 +31,13 @@ export const usersMapRoute = {
       ),
       index: true,
       errorElement: <h1>Error</h1>,
-      loader: async () => {
-        return await axios.get(`${API_URL}users`)
+      loader: async ({ request }) => {
+        const url = new URL(request.url)
+        const name = url.searchParams.get('name')
+        const { data } = await axios.get(
+          `${API_URL}users${!!name ? '?name=' + name : ''}`
+        )
+        return { users: data, name }
       }
     },
     {

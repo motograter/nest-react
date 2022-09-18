@@ -23,7 +23,7 @@ const Svg = styled('svg', {
 export const Icon = forwardRef(({ name, ...props }: any, forwardRef) => {
   return (
     <Svg ref={forwardRef} {...props}>
-      <use href={`${sprite}#${name}`} />
+      <use width='100%' height="100%" href={`${sprite}#${name}`} />
     </Svg>
   )
 })

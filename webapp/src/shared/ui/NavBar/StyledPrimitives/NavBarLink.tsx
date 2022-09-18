@@ -1,7 +1,6 @@
 import React, { MouseEvent, ReactNode } from 'react'
 import { styled, CSS } from '@/shared/design'
 import { Path, useHref, useLinkClickHandler, useLocation, useNavigate } from 'react-router-dom'
-import { Icon } from '@/shared/ui'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 
 
@@ -21,11 +20,11 @@ const StyledLink = styled(NavigationMenu.Link, {
 
   },
   '&:hover': {
-    backgroundColor: '#C3BBFA',
+    backgroundColor: '$tuna',
   },
   '&[data-active]': {
     color: '$salem',
-    backgroundColor: '#c3bbfa',
+    backgroundColor: '$outerSpace',
   },
 })
 

@@ -15,5 +15,15 @@ export const navigationLinks = [
     title: 'Posts',
     icon: 'archived',
     path: 'posts'
+  },
+  {
+    title: 'Articles',
+    icon: 'article',
+    path: 'articles'
+  },
+  {
+    title: 'Ideas',
+    icon: 'idea',
+    path: 'ideas'
   }
 ]

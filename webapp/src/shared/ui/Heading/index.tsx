@@ -13,7 +13,6 @@ export const Heading = ({
   ...props
 }: HeadingProps) => {
 
-  console.log(props)
   const Heading = ({ ...props }: HTMLAttributes<HTMLHeadingElement>) =>
     createElement(headingLevel, props, children)
 

@@ -22,11 +22,9 @@ export const UserEdit = () => {
           />
         </div>
 
-        <div>
           <Button type="submit" variant="green" size="3">
             Save Changes
           </Button>
-        </div>
       </Form>
     </div>
   )
