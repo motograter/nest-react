@@ -4,6 +4,7 @@ specifiers:
   '@babel/core': ^7.18.9
   '@joshwooding/vite-plugin-react-docgen-typescript': ^0.0.5
   '@mdx-js/react': ^2.1.2
+  '@radix-ui/colors': ^0.1.8
   '@radix-ui/react-alert-dialog': ^1.0.0
   '@radix-ui/react-avatar': ^1.0.0
   '@radix-ui/react-checkbox': ^1.0.0
@@ -12,6 +13,7 @@ specifiers:
   '@radix-ui/react-navigation-menu': ^1.0.0
   '@radix-ui/react-scroll-area': ^1.0.0
   '@radix-ui/react-select': ^1.0.0
+  '@radix-ui/react-separator': ^1.0.0
   '@radix-ui/react-switch': ^0.1.5
   '@radix-ui/react-tabs': ^1.0.0
   '@reduxjs/toolkit': ^1.8.5
@@ -79,6 +81,7 @@ specifiers:
 
 dependencies:
   '@mdx-js/react': 2.1.3_react@18.2.0
+  '@radix-ui/colors': 0.1.8
   '@radix-ui/react-alert-dialog': 1.0.0_zxljzmqdrxwnuenbkrz77w74uy
   '@radix-ui/react-avatar': 1.0.0_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-checkbox': 1.0.0_biqbaboplfbrettd7655fr4n2y
@@ -87,6 +90,7 @@ dependencies:
   '@radix-ui/react-navigation-menu': 1.0.0_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-scroll-area': 1.0.0_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-select': 1.0.0_zxljzmqdrxwnuenbkrz77w74uy
+  '@radix-ui/react-separator': 1.0.0_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-switch': 0.1.5_react@18.2.0
   '@radix-ui/react-tabs': 1.0.0_biqbaboplfbrettd7655fr4n2y
   '@reduxjs/toolkit': 1.8.5_kkwg4cbsojnjnupd3btipussee
@@ -2027,6 +2031,10 @@ packages:
       webpack: 5.74.0
     dev: true
 
+  /@radix-ui/colors/0.1.8:
+    resolution: {integrity: sha512-jwRMXYwC0hUo0mv6wGpuw254Pd9p/R6Td5xsRpOmaWkUHlooNWqVcadgyzlRumMq3xfOTXwJReU0Jv+EIy4Jbw==}
+    dev: false
+
   /@radix-ui/number/1.0.0:
     resolution: {integrity: sha512-Ofwh/1HX69ZfJRiRBMTy7rgjAzHmwe4kW9C9Y99HTRUcYLUuVT0KESFj15rPjRgKJs20GPq8Bm5aEDJ8DuA3vA==}
     dependencies:
@@ -2417,6 +2425,18 @@ packages:
       react-remove-scroll: 2.5.4_ug65io7jkbhmo4fihdmbrh3ina
     transitivePeerDependencies:
       - '@types/react'
+    dev: false
+
+  /@radix-ui/react-separator/1.0.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-narSsDP+CKJWEOV9Yx9aOpw4bLaNRNIvnqmfx30mAJAJ9wPKoyVmcLzFj0Hyx3yQNZx7EokMwW6KtMyxN5jDUw==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.18.9
+      '@radix-ui/react-primitive': 1.0.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@radix-ui/react-slot/0.1.2_react@18.2.0:

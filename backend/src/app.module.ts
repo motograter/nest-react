@@ -1,24 +1,17 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CoffeesModule } from './coffees/coffees.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { Module } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { MongooseModule } from '@nestjs/mongoose'
+import { AppService } from './app.service'
+import { UserModule } from 'src/modules/user/user.module'
 @Module({
   imports: [
-    CoffeesModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'root',
-      password: 'root',
-      database: 'test_db',
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
+    // CoffeesModule,
+    MongooseModule.forRoot(
+      'mongodb+srv://test:test@cluster0.1atatml.mongodb.net/?retryWrites=true&w=majority'
+    ),
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

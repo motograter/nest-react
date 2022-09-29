@@ -1,5 +1,11 @@
 import { withProviders } from './providers'
-import { Main } from '@/pages/main'
+import { Routing } from '@/pages/routing'
 import './App.css'
+import { globalStyles } from '@/shared/design'
 
-export default withProviders(Main)
+const App = () => {
+  globalStyles()
+  return <Routing />
+}
+
+export default withProviders(App)

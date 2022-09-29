@@ -1,4 +1,4 @@
 import { compose } from '@reduxjs/toolkit'
 import { withStore } from './withStore'
 import { withRouter } from './withRouter'
-export const withProviders = compose(withRouter, withStore)
+export const withProviders = compose(withStore)

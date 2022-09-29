@@ -97,6 +97,17 @@ export const lightMode = createTheme('light__mode', {
   },
 })
 
+export const globalStyles = globalCss({
+  ':root': {
+    fontFamily: 'Montserrat, sans-serif',
+  },
+  '@import': "url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600&display=swap')",
+  // '@font-face': {
+  //   fontFamily: 'Montserrat, sans-serif',
+  //   src: "url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600&display=swap')",
+  // },
+});
+
 export const darkMode = createTheme('dark__mode', {
   colors: {
     close: '$gray',

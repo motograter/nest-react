@@ -2,19 +2,16 @@ import axios from 'axios'
 import { API_URL } from '@/shared/config'
 import { lazy, Suspense } from 'react'
 import { Outlet, useRouteError } from 'react-router-dom'
-import { loader as userDetailsLoader } from '../user-details'
 import userEdit from '../user-edit'
+import userDetails from '../user-details'
 
 const UserList = lazy(() =>
   import('../user-list').then((module) => ({ default: module.UserList }))
 )
 
-const User = lazy(() =>
-  import('../user-details').then((module) => ({ default: module.User }))
-)
 
 function ErrorBoundary() {
-  const error = useRouteError();
+  const error =useRouteError();
   console.error(error);
   return <div>{error.statusText}</div>;
 }
@@ -30,7 +27,6 @@ export const usersRouteMap = {
         </Suspense>
       ),
       index: true,
-      errorElement: <h1>Error</h1>,
       loader: async ({ request }) => {
         const url = new URL(request.url)
         const name = url.searchParams.get('name')
@@ -42,8 +38,8 @@ export const usersRouteMap = {
     },
     {
       path: ':id',
-      element: <User />,
-      loader: userDetailsLoader
+      element: userDetails.view(),
+      loader: userDetails.loader
     },
     {
       path: ':id/edit',

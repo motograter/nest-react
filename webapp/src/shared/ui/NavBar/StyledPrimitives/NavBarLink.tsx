@@ -1,10 +1,17 @@
 import React, { MouseEvent, ReactNode } from 'react'
 import { styled, CSS } from '@/shared/design'
-import { Path, useHref, useLinkClickHandler, useLocation, useNavigate } from 'react-router-dom'
+import {
+  Path,
+  useHref,
+  useLinkClickHandler,
+  useLocation,
+  useMatches,
+  NavLink
+} from 'react-router-dom'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
+import { Separator } from '@/shared/ui'
 
-
-const StyledLink = styled(NavigationMenu.Link, {
+const Box = styled('div', {
   textDecoration: 'none',
   display: 'flex',
   alignItems: 'center',
@@ -16,65 +23,53 @@ const StyledLink = styled(NavigationMenu.Link, {
   color: 'rgb(113, 113, 113)',
   backgroundColor: 'inherit',
   transition: 'all 0.1s ease-in',
-  '&:first-child': {
-
-  },
+  '&:first-child': {},
   '&:hover': {
-    backgroundColor: '$tuna',
+    backgroundColor: '$tuna'
   },
-  '&[data-active]': {
+  '&[data-active="true"]': {
     color: '$salem',
-    backgroundColor: '$outerSpace',
-  },
+    backgroundColor: '$outerSpace'
+  }
 })
 
 type To = string | Partial<Path>
 
-type PropsStyledLink = typeof StyledLink & {
-  replace?: boolean
-  state?: any
+type PropsStyledLink = typeof NavigationMenu.Link & {
   to: To
-  reloadDocument?: boolean
   css?: CSS
   onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
   target?: any
   children?: ReactNode
+  external?: boolean
 }
 
 export const NavBarLink = React.forwardRef(
-  ({ onClick, replace = false, state, target, to, link, children, ...rest }: PropsStyledLink, ref: any) => {
-    
-    let href = to ? useHref(to): link.href
-
-    let handleClick = useLinkClickHandler(to || '', {
-      replace,
-      state,
-      target: !to ? "_blank" : '_self',
-    })
-
-    let navigate = useNavigate();
-
-    const location = useLocation()
-    const isActive = location.pathname === href
-
-    const clickHandler = (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>): void => {
-      onClick?.(event)
-      if (!event.defaultPrevented) {
-        handleClick(event)
-      }
+  (
+    { onClick, to, children, external = false, ...rest }: PropsStyledLink,
+    ref: any
+  ) => {
+    if (external) {
+      return (
+        <a href={to || ''} target="_blank">
+          <Separator css={{ marginBottom: 10 }} />
+          <Box >
+            {children}
+          </Box>
+        </a>
+      )
     }
 
     return (
-      <StyledLink
-        {...rest}
-        active={isActive}
-        onClick={clickHandler}
-        ref={ref}
-        target={!to ? "_blank" : target}
-        href={href}
-      >
-       {children}
-      </StyledLink>
+      <NavigationMenu.Link asChild>
+        <NavLink
+          end={to === '/' ? true : false}
+          to={to}
+          ref={ref}
+          target={external ? '_blank' : '_self'}>
+          {({ isActive }) => <Box data-active={isActive}>{children}</Box>}
+        </NavLink>
+      </NavigationMenu.Link>
     )
-  },
+  }
 )

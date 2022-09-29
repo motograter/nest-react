@@ -11,9 +11,8 @@ const BaseButton = styled('button', {
   outline: 'none',
   cursor: 'pointer',
   '&:active': {
-    filter: 'brightness(120%)',
     boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
-  }
+  },
 })
 
 const StyledButton = styled(BaseButton, {
@@ -28,19 +27,19 @@ const StyledButton = styled(BaseButton, {
   backgroundColor: '$$bgColor',
   borderRadius: '$$radius',
   gap: 5,
-  height: 'max-content',
-  fontSize: '$fontSizes$16',
-  lineHeight: '1',
+  fontSize: '12px',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
   whiteSpace: 'nowrap',
+  lineHeight: 1,
+  height: 35,
 
   transition: 'background-color 20ms ease-in-out',
+
   variants: {
     variant: variants,
     size: sizes,
-
     rounded: {
       true: {
         borderRadius: 9999
@@ -102,7 +101,7 @@ export const Button = forwardRef<Ref, ButtonProps>(
   ) => {
     return (
       <StyledButton asIcon={asIcon} {...rest} ref={forwardedRef}>
-        {!asIcon && <span>{children}</span>}
+        {!asIcon && children}
         {renderIcon?.()}
       </StyledButton>
     )

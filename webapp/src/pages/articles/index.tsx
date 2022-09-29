@@ -1,6 +1,6 @@
 export const Articles = ()=> {
 
     return <div className="page-articles">
-        Articles
+       https://fsaycon.dev/blog/react-plus-stitches-equals-awesome
     </div>
 }
