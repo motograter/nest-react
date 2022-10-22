@@ -1,4 +1,4 @@
-import { styled } from 'shared/design'
+import { styled } from '@/shared/design'
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 
 const SCROLLBAR_SIZE = 5

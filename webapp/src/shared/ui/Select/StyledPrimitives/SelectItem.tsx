@@ -1,7 +1,7 @@
 import { ComponentProps, ElementRef, forwardRef } from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
-import { styled, VariantProps } from 'shared/design'
-import { Icon } from 'shared/ui'
+import { styled, VariantProps } from '@/shared/design'
+import { Icon } from '@/shared/ui'
 
 const StyledItem = styled(SelectPrimitive.Item, {
   display: 'flex',

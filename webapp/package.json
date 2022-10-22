@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "pnpm tsc-silent -p './tsconfig.json' && vite build",
+    "typecheck": "tsc --noEmit",
+    "build": "pnpm typecheck && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "typecheck": "tsc --noEmit"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@mdx-js/react": "^2.1.2",

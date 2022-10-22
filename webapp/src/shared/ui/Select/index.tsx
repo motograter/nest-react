@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { SelectRoot, SelectItem, SelectSeparator, SelectLabel } from './StyledPrimitives'
-import { styled } from 'shared/design'
+import { styled } from '@/shared/design'
 
 const SelectOption = styled('div', {
 })

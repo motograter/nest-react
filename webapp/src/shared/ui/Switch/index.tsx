@@ -1,9 +1,11 @@
-import { forwardRef } from 'react'
+import { ButtonHTMLAttributes, ForwardedRef, forwardRef } from 'react'
 import { styled } from '@stitches/react'
 import * as SwitchPrimitive from '@radix-ui/react-switch'
+import { CSS } from '@/shared/design'
 
 const StyledSwitch = styled(SwitchPrimitive.Root, {
   all: 'unset',
+  overflow: 'hidden',
   width: 42,
   height: 25,
   backgroundColor: '$red',
@@ -12,7 +14,7 @@ const StyledSwitch = styled(SwitchPrimitive.Root, {
   boxShadow: `0 2px 10px $outerSpace`,
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
   '&:focus': { boxShadow: `0 0 0 2px black` },
-  '&[data-state="checked"]': { backgroundColor: '$salem' },
+  '&[data-state="checked"]': { backgroundColor: '$salem' }
 })
 
 const StyledThumb = styled(SwitchPrimitive.Thumb, {
@@ -25,17 +27,27 @@ const StyledThumb = styled(SwitchPrimitive.Thumb, {
   transition: 'transform 100ms',
   transform: 'translateX(2px)',
   willChange: 'transform',
-  '&[data-state="checked"]': { transform: 'translateX(19px)' },
+  '&[data-state="checked"]': { transform: 'translateX(19px)' }
 })
 
-type SwitchRef = typeof SwitchPrimitive.Root
+type SwitchProps = {
+  children?: React.ReactNode
+  thumbStyle?: CSS
+  checked?: boolean
+  css?: CSS
+  onCheckedChange: (b: boolean) => void
+}
 
-type SwitchProps = any
-
-export const Switch = forwardRef<SwitchRef, SwitchProps>((props, ref) => {
-  return (
-    <StyledSwitch ref={ref} {...props}>
-      <StyledThumb />
-    </StyledSwitch>
-  )
-})
+export const Switch = forwardRef(
+  (
+    { children, thumbStyle, ...props }: SwitchProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
+    return (
+      <StyledSwitch ref={ref} {...props}>
+        <StyledThumb css={thumbStyle} />
+        {children}
+      </StyledSwitch>
+    )
+  }
+)
