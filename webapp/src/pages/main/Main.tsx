@@ -8,9 +8,8 @@ import { Loader } from '@/shared/ui'
 export const Main = () => {
   const navigation = useNavigation()
   return (
-    <>
-     MAIN
+    <MainLayout sideComponent={NavBar} content={}>
 
-    </>
+    </MainLayout>
   )
 }

@@ -1,41 +1,95 @@
-import { Injectable } from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto'
-import { User, UserDocument } from 'src/schemas/user.schema'
-import { CreateUserDto } from './dto/createuser.dto'
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException
+} from '@nestjs/common'
+import { User } from '@prisma/client'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(user: CreateUserDto): Promise<User> {
-    console.log(user)
-    const addedUser = new this.userModel(user)
-    return addedUser.save()
+  async createUser(user: User): Promise<User | any> {
+    return await this.prisma.user
+      .create({
+        data: user
+      })
+      .catch((err) => {
+        if (err instanceof PrismaClientKnownRequestError) {
+          if (err.code === 'P2002') {
+            throw new HttpException(
+              {
+                message:
+                  'There is a unique constraint violation, a new user cannot be created with this email'
+              },
+              HttpStatus.CONFLICT
+            )
+          }
+        }
+        return err
+      })
   }
 
-  async findAll(
-    documentsToSkip = 0,
-    limitOfDocuments = 10
-  ): Promise<{ users: User[]; total: number }> {
-    console.log( limitOfDocuments)
-    const users = await this.userModel
-      .find()
-      .sort({ id: 1 })
-      .skip(documentsToSkip)
-      .limit(limitOfDocuments)
-    const total = await this.userModel.count()
-    return { users, total }
+  async getAllUsers(query: { name: string; take: number }) {
+    const users = await this.prisma.user.findMany({
+      where: {
+        AND: {
+          name: {
+            contains: query.name
+          }
+        }
+      },
+      take: query.take || 50
+    })
+    const count = await this.prisma.user.count()
+    return {
+      result: users,
+      total: count
+    }
   }
 
-  async updateOne(id, update) {
-    console.log(id)
-    const user = await this.userModel.findOneAndUpdate(
-      { name: 'Drew' },
-      update,
-      { new: true }
-    )
+  async selectOne(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    if (!user) {
+      throw new NotFoundException({
+        error: {
+          message: 'User Not Found',
+          status: HttpStatus.NOT_FOUND
+        }
+      })
+    }
     return user
+  }
+
+  async updateOne(userId: string, data: Partial<User>) {
+    return await this.prisma.user
+      .update({
+        where: {
+          id: userId
+        },
+        data
+      })
+      .catch((error) => {
+        throw new BadRequestException(
+          new HttpErrorByCode[HttpStatus.BAD_REQUEST]()
+        )
+      })
+  }
+
+  async deleteOne(userId: string) {
+    return await this.prisma.user.delete({
+      where: {
+        id: userId
+      }
+    })
   }
 }

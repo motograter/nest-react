@@ -1,87 +1,82 @@
 import {
+  ArgumentMetadata,
   Body,
   Controller,
   Delete,
   Get,
-  HttpStatus,
+  Injectable,
   Param,
-  ParseBoolPipe,
-  ParseIntPipe,
   Patch,
+  PipeTransform,
   Post,
-  Put,
   Query,
-  Res
+  Req,
+  Res,
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { PaginationParams } from 'src/shared/dto/paginationParams'
 import { CreateUserDto } from './dto/createUser.dto'
 import { UpdateUserDto } from './dto/updateUser.dto.'
+import { User } from '@prisma/client'
+import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util'
+import { query } from 'express'
+import { IsNumber, IsOptional, IsString } from 'class-validator'
+
+import { Type } from 'class-transformer'
+@Injectable()
+class QueryTransformPipe implements PipeTransform {
+  transform(value: any, metadata: ArgumentMetadata) {
+    if(typeof value.take === 'string' ) {
+      value.take = Number(value.take)
+    }
+    return value
+  }
+}
+
+export class QueryParams  {
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  readonly take: number
+
+  @IsOptional()
+  @IsString()
+  readonly name: string
+}
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Res() response, @Body() createUserDto: CreateUserDto) {
-    try {
-      const newUser = await this.userService.create(createUserDto)
-      return response.status(HttpStatus.CREATED).json({
-        message: 'Student has been created successfully',
-        newUser
-      })
-    } catch (err) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        statusCode: 400,
-        message: 'Error: User not created!',
-        error: 'Bad Request'
-      })
-    }
+  async createUser(@Body() createUserDto: User) {
+    return await this.userService.createUser(createUserDto)
   }
 
   @Get()
-  async findAll(@Res() response, @Query() { skip, limit }: PaginationParams) {
-    const users = await this.userService.findAll(skip, limit)
-    return response.status(HttpStatus.OK).json(users)
+  async getAllUsers(
+    @Query() query: QueryParams,
+    ) {
+    return await this.userService.getAllUsers(query)
   }
 
   @Get(':id')
-  findOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('sort', ParseBoolPipe) sort: boolean,
-  ) {
-    console.log(typeof id === 'number'); // true
-    console.log(typeof sort === 'boolean'); // true
-    return 'This action returns a user';
-  }
-  
-  @Patch(':name')
-  async updateOne(@Res() response, @Body() updateUserDto: UpdateUserDto, @Param('name') id) {
-    const user = await this.userService.updateOne(id, updateUserDto)
-    return response.status(HttpStatus.OK).json(user)
+  async selectOne(@Param() {id}: {id: string}) {
+    return await this.userService.selectOne(id)
   }
 
-  // @Get('/:id')
-  // // async findById(@Res() response, @Param('id') id) {
-  // //     const book = await this.bookService.readById(id);
-  // //     return response.status(HttpStatus.OK).json({
-  // //         book
-  // //     })
-  // }
+  @Patch(':id')
+  async updateOne(
+    @Param() {id}: {id: string},
+    @Body() data: Partial<User>
+    ): Promise<User>  {
+    return await this.userService.updateOne(id, data)
+  }
 
-  // @Put('/:id')
-  // async update(@Res() response, @Param('id') id, @Body() book: Book) {
-  //     // const updatedBook = await this.bookService.update(id, book);
-  //     // return response.status(HttpStatus.OK).json({
-  //     //     updatedBook
-  //     // })
-  // }
+  @Delete(':id')
+  async deleteOne(@Param() {id}: {id: string}) {
+    return await this.userService.deleteOne(id)
+  }
 
-  // @Delete('/:id')
-  // async delete(@Res() response, @Param('id') id) {
-  //     // const deletedBook = await this.bookService.delete(id);
-  //     // return response.status(HttpStatus.OK).json({
-  //     //     deletedBook
-  //     // })
-  // }
 }

@@ -10,9 +10,6 @@ export const Root = () => {
 
   return (
     <>
-    
-   
-
       <MainLayout
         header={<Header />}
         sideComponent={ <NavBar />}
